@@ -1,0 +1,3 @@
+
+        // Test Case 4:
+        String str4 = "856-45-0000";

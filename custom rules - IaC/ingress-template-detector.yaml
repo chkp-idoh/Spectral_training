@@ -1,0 +1,37 @@
+
+# For testing this detector:
+#   1. Create my_test directory and `cd` it
+#   2. Run spectral init, `.spectral` folder will created
+#   3. Move this file to my_test/.spectral/rules/
+#   4. In `my_test/` run `spectral scan --include-tags org-iac`
+
+rules:
+- id: ORG_KUBR_001
+  name: Ensure Ingress backend using TLS servicePort (port 443)
+  decription: The k8s Ingress responsible the TLS termination, use only port 443
+  tags:
+  - org-iac
+  applies_to:
+  - .*\.(json|y[a]?ml)$
+  severity: error
+  priority: -1
+  iac_type: Kubernetes
+  pattern_group:
+    patterns:
+    - pattern: >
+        package policies
+
+        Policy[result] {
+          #    ...
+
+               result := {
+                    "keypath": "",
+                    "fix": "",
+                    "docsUrl": "https://kubernetes.io/docs/concepts/services-networking/ingress/",
+                    "url": "https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/"
+               }
+        }
+      pattern_type: opa_iac
+      test_regex_prematch:
+      - pattern: (apiVersion:)
+      - pattern: (kind:)

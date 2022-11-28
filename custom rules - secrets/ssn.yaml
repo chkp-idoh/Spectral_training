@@ -1,0 +1,28 @@
+# SpectralOPS.io - example for custom rules
+# You are invited to read our detectors engine documentation to learn more about our rules engine capabilities, tricks, and tips. after login to spectral SaaS you can find it in your account in the right menu.
+
+rules:
+- id: SSN001       # unique ID
+  name: SSN Number
+  tags:
+  - base
+  - ssn
+  - pci
+  applies_to:
+  - ".*$"
+  applies_not_to:
+  - ".*\\.(storyboard|xib)$"
+  severity: error
+  pattern_group:
+    patterns: # |---1----| |---2----| |---3----|
+    - pattern: "([0-9]{3})-([0-9]{2})-([0-9]{4})"     
+      pattern_type: multi
+      out: 0
+      test_regex_not:
+      - on: 1
+        pattern: "000|666|9[0-9]{2}"  # The first part should have 3 digits and should not be 000, 666, or between 900 and 999.
+      - on: 2
+        pattern: "00"                 # The second part should have 2 digits and it should be from 01 to 99.
+      - on: 3
+        pattern: "0000"               # The third part should have 4 digits and it should be from 0001 to 9999.
+

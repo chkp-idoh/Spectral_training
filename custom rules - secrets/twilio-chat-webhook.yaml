@@ -1,0 +1,17 @@
+# SpectralOPS.io - example for custom rules
+# You are invited to read our detectors engine documentation to learn more about our rules engine capabilities, tricks, and tips. after login to spectral SaaS you can find it in your account in the right menu.
+
+- id: TWILIO001
+  name: Visible Twilio Chat Webhook
+  tags:
+  - base
+  - twilio
+  applies_to:
+  - ".*$"
+  severity: warning
+  pattern_group:
+    aggregate: or
+    scope: text
+    patterns:
+    - pattern: # your answer should be here
+      pattern_type: multi
